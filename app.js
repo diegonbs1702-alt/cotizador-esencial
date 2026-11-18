@@ -2986,7 +2986,7 @@ function renderHistoryList() {
    ========================================================================== */
 function bindZoomControls() {
   const applyZoom = (val) => {
-    currentZoom = Math.min(1.25, Math.max(0.45, Number(val.toFixed(2))));
+    currentZoom = Math.min(1.25, Math.max(0.32, Number(val.toFixed(2))));
     document.documentElement.style.setProperty("--preview-zoom", String(currentZoom));
     document.getElementById("zoomLabel").textContent = `${Math.round(currentZoom * 100)}%`;
   };
@@ -2994,12 +2994,18 @@ function bindZoomControls() {
   document.getElementById("btnZoomIn").addEventListener("click", () => applyZoom(currentZoom + 0.08));
   document.getElementById("btnZoomOut").addEventListener("click", () => applyZoom(currentZoom - 0.08));
   document.getElementById("btnZoomFit").addEventListener("click", () => {
-    const viewportW = document.getElementById("previewViewport").clientWidth - 64;
-    const fit = Math.min(0.95, Math.max(0.48, viewportW / 816));
+    const pad = window.innerWidth <= 768 ? 28 : 64;
+    const viewportW = document.getElementById("previewViewport").clientWidth - pad;
+    const fit = Math.min(0.95, Math.max(0.36, viewportW / 816));
     applyZoom(fit);
   });
 
-  applyZoom(currentZoom);
+  if (window.innerWidth <= 768) {
+    const mobileFit = Math.min(0.95, Math.max(0.36, (window.innerWidth - 28) / 816));
+    applyZoom(mobileFit);
+  } else {
+    applyZoom(currentZoom);
+  }
 }
 
 /* ==========================================================================

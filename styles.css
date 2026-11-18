@@ -1686,12 +1686,262 @@ body {
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .app-topbar {
+    position: relative;
+  }
+
+  .topbar-inner {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .topbar-brand {
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    height: 26px;
+  }
+
+  .brand-divider {
+    height: 20px;
+  }
+
+  .brand-iso {
+    height: 20px;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .status-badge {
+    grid-column: 1 / -1;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 10.5px;
+  }
+
+  .topbar-actions .esencial-pill-btn {
+    width: 100%;
+    padding: 9px 10px;
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .editorial-hero-inner {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .editorial-h1 {
+    font-size: 24px;
+  }
+
+  .editorial-lead {
+    font-size: 12px;
+  }
+
+  .hero-tabs-wrap {
+    width: 100%;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .pill-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 6px;
+  }
+
+  .tab-btn {
+    width: 100%;
+    border-radius: 6px;
+    padding: 10px 8px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .workspace {
+    min-height: 0;
+  }
+
+  .editor-panel,
+  .preview-panel {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .tab-content {
+    padding: 14px 12px 24px;
+    gap: 20px;
+  }
+
+  .card {
+    padding: 16px 14px;
+    box-shadow: 0 3px 12px rgba(20, 20, 19, 0.05);
+  }
+
+  .card-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+
+  .card-header h2 {
+    font-size: 19px;
+  }
+
   .quick-preset-grid,
   .form-grid-2,
   .form-grid-3,
   .form-grid-4,
   .summary-kpi-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea,
+  .card textarea {
+    font-size: 14px;
+    padding: 10px 11px;
+  }
+
+  .toggle-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .toggle-row .btn-add {
+    width: 100%;
+    margin-left: 0 !important;
+    text-align: center;
+    padding: 8px 12px;
+  }
+
+  .item-box {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .item-box-head {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .item-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .subgroups-wrap {
+    padding-left: 8px;
+    gap: 10px;
+  }
+
+  .subgroup-head {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .subgroup-head input {
+    flex: 1 1 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .payment-row-top {
+    grid-template-columns: 84px 1fr;
+    gap: 8px;
+  }
+
+  .payment-row-top .item-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+
+  .history-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .history-item-btns {
+    justify-content: flex-end;
+  }
+
+  .backup-bar {
+    flex-direction: column;
+  }
+
+  .preview-toolbar {
+    height: auto;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .preview-info {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+
+  .zoom-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .preview-viewport {
+    padding: 16px 12px 36px;
+    justify-content: safe center;
+    overflow-x: auto;
+    min-height: 60vh;
+  }
+
+  .pages-container {
+    transform: none;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .pages-container .presupuesto-page {
+    transform: scale(var(--preview-zoom));
+    transform-origin: top center;
+    margin-inline: calc((var(--preview-zoom) - 1) * var(--page-w) / 2);
+    margin-bottom: calc((var(--preview-zoom) - 1) * var(--page-h));
+  }
+
+  .app-footer {
+    padding: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 }
