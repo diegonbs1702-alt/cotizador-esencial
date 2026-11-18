@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESENCIAL STUDIO — Creador de Presupuestos</title>
+  <link rel="icon" type="image/png" href="isotipo.png" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <!-- Fuentes complementarias y monoespaciado de precisión -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body class="antialiased" data-paper="white">
+  <!-- ================= HEADER ARQUITECTÓNICO (IDENTIDAD ESENCIAL.STUDIO) ================= -->
+  <header class="app-topbar no-print">
+    <div class="topbar-inner">
+      <div class="topbar-brand">
+        <img src="logotipo.png" alt="ESENCIAL STUDIO Logotipo" class="brand-logo" />
+        <span class="brand-divider" aria-hidden="true"></span>
+        <img src="isotipo.png" alt="ESENCIAL STUDIO Isotipo" class="brand-iso" />
+      </div>
+
+      <div class="topbar-actions">
+        <div class="status-badge" title="Estado de guardado local automático">
+          <span class="status-dot"></span>
+          <span id="saveStatusText">Autoguardado local</span>
+        </div>
+
+        <button type="button" class="esencial-pill-btn pill-ghost" id="btnTogglePaper" title="Cambiar color de papel entre Blanco editorial y Chukum">
+          <i data-lucide="palette" class="icon-sm"></i>
+          <span>Papel: Blanco</span>
+        </button>
+
+        <button type="button" class="esencial-pill-btn pill-ghost" id="btnNewQuote" title="Crear un presupuesto nuevo desde cero">
+          <i data-lucide="file-plus-2" class="icon-sm"></i>
+          <span>Nuevo</span>
+        </button>
+
+        <button type="button" class="esencial-pill-btn pill-ghost" id="btnRestoreExample" title="Restaurar el ejemplo oficial MARBELLO AJUSTES">
+          <i data-lucide="rotate-ccw" class="icon-sm"></i>
+          <span>Ejemplo Marbello</span>
+        </button>
+
+        <button type="button" class="esencial-pill-btn pill-sage" id="btnExportDocx" title="Descargar presupuesto editable en formato Microsoft Word (.docx)">
+          <i data-lucide="file-text" class="icon-sm"></i>
+          <span>Descargar DOCX</span>
+        </button>
+
+        <button type="button" class="esencial-pill-btn pill-dark" id="btnPrintPdf" title="Guardar PDF vectorial en formato Carta">
+          <i data-lucide="printer" class="icon-sm"></i>
+          <span>Guardar PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= CABECERA EDITORIAL Y NAVEGACIÓN ================= -->
+  <section class="editorial-hero no-print">
+    <div class="editorial-hero-inner">
+      <div class="hero-copy">
+        <span class="esencial-overline text-terracotta">Sistema Documental Arquitectónico · Formato Carta</span>
+        <h1 class="font-esencial-serif editorial-h1">Creador de Presupuestos y Cotizaciones</h1>
+        <p class="editorial-lead">
+          Arma cotizaciones por etapas y entregables con cálculo automático de descuentos y pagos, vistas en tiempo real y descarga directa en <strong>DOCX editable</strong> o <strong>PDF vectorial</strong>.
+        </p>
+      </div>
+
+      <div class="hero-tabs-wrap">
+        <span class="esencial-overline tabs-caption">Secciones de Edición:</span>
+        <nav class="pill-tabs" role="tablist">
+          <button type="button" class="tab-btn active" data-tab="alcances" role="tab" aria-selected="true">
+            01 · Proyecto y Alcances
+          </button>
+          <button type="button" class="tab-btn" data-tab="condiciones" role="tab" aria-selected="false">
+            02 · Entrega, Pagos y Obs.
+          </button>
+          <button type="button" class="tab-btn" data-tab="calculadora" role="tab" aria-selected="false">
+            03 · Calculadora / Notas
+          </button>
+          <button type="button" class="tab-btn" data-tab="historial" role="tab" aria-selected="false">
+            04 · Guardados
+          </button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ÁREA PRINCIPAL DE TRABAJO ================= -->
+  <main class="workspace">
+    <!-- PANEL IZQUIERDO: Editor -->
+    <aside class="editor-panel no-print">
+
+      <!-- TAB 1: PROYECTO Y ALCANCES -->
+      <section class="tab-content active" id="tab-alcances">
+        <!-- 01: Datos Generales y Portada -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-sage">01 / Portada y Encabezado</span>
+              <h2>Datos del Presupuesto</h2>
+            </div>
+            <span class="badge-mono">Portada + Intro</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="field">
+              <label for="projectName">Nombre del Proyecto (Portada)</label>
+              <input type="text" id="projectName" placeholder="MARBELLO AJUSTES" />
+            </div>
+            <div class="field">
+              <label for="quoteDateText">Fecha de Emisión</label>
+              <div class="input-with-btn">
+                <input type="text" id="quoteDateText" placeholder="13 de octubre del 2026" />
+                <button type="button" class="mini-btn" id="btnTodayDate" title="Usar fecha de hoy">Hoy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="field">
+              <label for="quoteEyebrow">Etiqueta Portada</label>
+              <input type="text" id="quoteEyebrow" placeholder="PRESUPUESTO" />
+            </div>
+            <div class="field">
+              <label for="clientName">Cliente (Opcional)</label>
+              <input type="text" id="clientName" placeholder="Nombre del cliente" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="quoteCode">Nombre Archivo / Folio</label>
+            <div class="input-with-btn">
+              <input type="text" id="quoteCode" placeholder="ES_PROYECTO_FECHA" />
+              <button type="button" class="mini-btn" id="btnAutoCode" title="Generar nombre ES_PROYECTO_FECHA">Auto</button>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="includeCoverPage" />
+              Portada en Página 1
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" id="includeIntroText" />
+              Carta introductoria
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" id="showPageNumbers" />
+              Numerar páginas
+            </label>
+          </div>
+
+          <details class="details-box">
+            <summary>
+              <span>Editar textos de introducción</span>
+              <span class="mono-badge">3 párrafos</span>
+            </summary>
+            <div class="details-body">
+              <div class="field">
+                <label for="introGreeting">Párrafo 1 (Saludo)</label>
+                <textarea id="introGreeting" rows="2"></textarea>
+              </div>
+              <div class="field">
+                <label for="introBody">Párrafo 2 (Criterio de costos)</label>
+                <textarea id="introBody" rows="3"></textarea>
+              </div>
+              <div class="field">
+                <label for="introLead">Párrafo 3 (Entrada a tabla)</label>
+                <input type="text" id="introLead" />
+              </div>
+              <div>
+                <button type="button" class="mini-btn" id="btnRestoreIntroText">Restaurar redacción oficial</button>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- 02: Catálogo de Paquetes Rápidos -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-ochre">02 / Plantillas de Estudio</span>
+              <h2>Agregar Alcance en 1 Clic</h2>
+            </div>
+            <button type="button" class="btn-add" id="btnAddBlankScope">+ Partida vacía</button>
+          </div>
+          <p class="helper-text">
+            Inserta etapas preconfiguradas con sus bloques y entregables habituales. Después puedes editar cualquier viñeta o importe.
+          </p>
+          <div id="quickPresetGrid" class="quick-preset-grid"></div>
+        </div>
+
+        <!-- 03: Conceptos / Alcances Dinámicos -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-terracotta">03 / Desglose de Conceptos</span>
+              <h2>Alcances y Descripciones</h2>
+            </div>
+            <span id="scopeCountBadge" class="badge-mono">2 conceptos</span>
+          </div>
+          <div id="scopesList" class="dynamic-list"></div>
+        </div>
+
+        <!-- 04: Monolito Oscuro de Totales y Descuento -->
+        <div class="esencial-card card card-monolith">
+          <img src="isotipo.png" alt="" class="monolith-watermark" aria-hidden="true" />
+          <div class="card-header monolith-head">
+            <div>
+              <span class="esencial-overline text-ochre-bright">04 / Cierre Económico</span>
+              <h2>Resumen, Descuento e IVA</h2>
+            </div>
+            <span class="badge-mono badge-dark">MXN</span>
+          </div>
+
+          <div class="summary-kpi-grid">
+            <div class="summary-kpi">
+              <span>Suma Alcances</span>
+              <strong id="summarySubtotal">$ 0.00</strong>
+            </div>
+            <div class="summary-kpi">
+              <span>Descuento</span>
+              <strong id="summaryDiscount">$ 0.00</strong>
+            </div>
+            <div class="summary-kpi is-accent">
+              <span>Total Final</span>
+              <strong id="summaryTotal">$ 0.00</strong>
+            </div>
+          </div>
+
+          <div class="monolith-fields">
+            <div class="form-grid-2">
+              <div class="field">
+                <label for="discountMode">Modo de Descuento</label>
+                <select id="discountMode">
+                  <option value="none">Sin descuento</option>
+                  <option value="percent">Por porcentaje (%)</option>
+                  <option value="fixed">Por monto fijo ($ MXN)</option>
+                  <option value="custom_final">Etiqueta % + Total pactado</option>
+                </select>
+              </div>
+
+              <div class="field" id="discountPercentField">
+                <label for="discountPercent">Porcentaje (%)</label>
+                <input type="number" id="discountPercent" min="0" max="100" step="0.5" placeholder="12" />
+              </div>
+
+              <div class="field hidden" id="discountFixedField">
+                <label for="discountFixed">Descuento ($ MXN)</label>
+                <input type="number" id="discountFixed" min="0" step="500" placeholder="24000" />
+              </div>
+            </div>
+
+            <div class="form-grid-2 hidden" id="discountCustomFields">
+              <div class="field">
+                <label for="discountCustomLabel">Etiqueta en tabla</label>
+                <input type="text" id="discountCustomLabel" placeholder="DESC. 12%" />
+              </div>
+              <div class="field">
+                <label for="discountFinalAmount">Total final pactado ($ MXN)</label>
+                <input type="number" id="discountFinalAmount" min="0" step="500" placeholder="173000" />
+              </div>
+            </div>
+
+            <div class="form-grid-2 mt-sm">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="showIvaBreakdown" />
+                Desglosar + IVA en tabla
+              </label>
+              <div class="field" id="ivaRateWrap">
+                <label for="ivaRatePercent">Tasa IVA (%)</label>
+                <input type="number" id="ivaRatePercent" min="0" max="30" step="1" value="16" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: ENTREGA, PAGOS Y OBSERVACIONES -->
+      <section class="tab-content" id="tab-condiciones">
+        <!-- Calendario de Entrega -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-sage">05 / Tiempos</span>
+              <h2>Calendario de Entrega</h2>
+            </div>
+            <span class="badge-mono">Semanas</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="field">
+              <label for="weeksMin">Semanas mín.</label>
+              <input type="number" id="weeksMin" min="1" max="104" value="14" />
+            </div>
+            <div class="field">
+              <label for="weeksMax">Semanas máx.</label>
+              <input type="number" id="weeksMax" min="1" max="104" value="16" />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button type="button" class="mini-btn sage" id="btnApplyWeeks" style="height: 33px;">Aplicar al texto</button>
+            </div>
+          </div>
+
+          <div class="field mt-sm">
+            <label for="deliveryMainText">Texto principal de entrega</label>
+            <textarea id="deliveryMainText" rows="3"></textarea>
+          </div>
+
+          <div class="field mt-sm">
+            <label for="deliveryEarlyNote">Nota opcional de entregas anticipadas (***)</label>
+            <textarea id="deliveryEarlyNote" rows="3" placeholder="Ej. ***La entrega del material comercial se irá entregando anticipadamente... (dejar vacío para omitir)"></textarea>
+          </div>
+
+          <div class="field mt-sm">
+            <label for="deliveryFootnote">Nota al pie en cursiva (*)</label>
+            <input type="text" id="deliveryFootnote" />
+          </div>
+        </div>
+
+        <!-- Calendario de Pagos -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-terracotta">06 / Esquema Financiero</span>
+              <h2>Calendario de Pagos</h2>
+            </div>
+            <span id="paymentSumBadge" class="badge-mono badge-ok">Suma: 100%</span>
+          </div>
+
+          <div class="chips-row mb-sm" id="paymentPresetRow">
+            <button type="button" class="chip-pill" data-preset="40-30-20-10">40 / 30 / 20 / 10</button>
+            <button type="button" class="chip-pill" data-preset="50-50">50 / 50</button>
+            <button type="button" class="chip-pill" data-preset="40-30-30">40 / 30 / 30</button>
+            <button type="button" class="chip-pill" data-preset="30-30-30-10">30 / 30 / 30 / 10</button>
+          </div>
+
+          <div class="toggle-row mb-sm">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="showPaymentAmounts" />
+              Mostrar importe en $ MXN junto a cada pago
+            </label>
+            <button type="button" class="btn-add" id="btnAddPayment" style="margin-left: auto;">+ Pago</button>
+          </div>
+
+          <div id="paymentsList" class="dynamic-list"></div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-ochre">07 / Condiciones Generales</span>
+              <h2>Observaciones y Cláusulas</h2>
+            </div>
+            <button type="button" class="btn-add" id="btnAddObservation">+ Cláusula</button>
+          </div>
+
+          <div class="field mb-sm">
+            <label for="ivaStatus">Encabezado de IVA</label>
+            <select id="ivaStatus">
+              <option value="Precios NO INCLUYEN IVA.">Precios NO INCLUYEN IVA.</option>
+              <option value="Precios MÁS IVA (16%).">Precios MÁS IVA (16%).</option>
+              <option value="Precios INCLUYEN IVA.">Precios INCLUYEN IVA.</option>
+            </select>
+          </div>
+
+          <div class="form-grid-4">
+            <div class="field">
+              <label for="obsAdjustRounds">Rondas</label>
+              <input type="number" id="obsAdjustRounds" min="0" max="10" value="2" />
+            </div>
+            <div class="field">
+              <label for="obsValidityDays">Vigencia (días)</label>
+              <input type="number" id="obsValidityDays" min="5" max="365" value="90" />
+            </div>
+            <div class="field">
+              <label for="obsDelayDays">Días rev.</label>
+              <input type="number" id="obsDelayDays" min="1" max="30" value="5" />
+            </div>
+            <div class="field">
+              <label for="obsCity">Ciudad</label>
+              <input type="text" id="obsCity" value="Mérida" />
+            </div>
+          </div>
+          <div class="mb-sm">
+            <button type="button" class="mini-btn sage" id="btnApplyObsParams">Actualizar parámetros en cláusulas</button>
+          </div>
+
+          <div id="observationsList" class="dynamic-list"></div>
+
+          <div class="field mt-sm">
+            <label for="closingLine">Párrafo de despedida</label>
+            <textarea id="closingLine" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- Firmas y Contacto -->
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-sage">08 / Firmas y Pie</span>
+              <h2>Atentamente y Contacto</h2>
+            </div>
+            <div class="item-actions">
+              <button type="button" class="mini-btn" id="btnAddClientSigner" title="Agregar espacio de aceptación del cliente">+ Cliente</button>
+              <button type="button" class="btn-add" id="btnAddSigner">+ Firmante</button>
+            </div>
+          </div>
+
+          <div class="field mb-sm">
+            <label for="signoffGreeting">Texto previo a firmas</label>
+            <input type="text" id="signoffGreeting" value="Atentamente:" />
+          </div>
+
+          <div id="signersList" class="dynamic-list mb-sm"></div>
+
+          <div class="form-grid-2 mt-sm">
+            <div class="field">
+              <label for="footerPhone">Teléfono (pie de página)</label>
+              <input type="text" id="footerPhone" value="999 275 8369" />
+            </div>
+            <div class="field">
+              <label for="footerEmail">Correo (pie de página)</label>
+              <input type="text" id="footerEmail" value="proyectos@esencial.studio" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: CALCULADORA ORIENTATIVA Y NOTAS RÁPIDAS -->
+      <section class="tab-content" id="tab-calculadora">
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-ochre">Estimador Rápido</span>
+              <h2>Calculadora por m² y Renders</h2>
+            </div>
+            <span class="badge-mono">Sugerencia</span>
+          </div>
+          <p class="helper-text">
+            Calcula montos base según superficie, tipología y cantidad de renders para cargarlos directamente a tu presupuesto.
+          </p>
+
+          <div class="form-grid-2">
+            <div class="field">
+              <label for="calcAreaM2">Superficie del proyecto (m²)</label>
+              <input type="number" id="calcAreaM2" min="10" step="5" value="280" />
+            </div>
+            <div class="field">
+              <label for="calcTypology">Tipología</label>
+              <select id="calcTypology">
+                <option value="residencial">Casa / Residencial</option>
+                <option value="comercial">Comercial / Amenidades</option>
+                <option value="remodelacion">Remodelación / Ajustes</option>
+                <option value="interiorismo">Diseño de Interiores</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="field">
+              <label for="calcRateM2">Tarifa integral ($ MXN / m²)</label>
+              <input type="number" id="calcRateM2" min="50" step="25" value="650" />
+            </div>
+            <div class="field">
+              <label for="calcRendersCount">Renders HD incluidos / extra</label>
+              <input type="number" id="calcRendersCount" min="0" max="40" value="8" />
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="calcIncludeExec" checked />
+              Incluir etapa de Proyecto Ejecutivo (40% del arancel)
+            </label>
+          </div>
+
+          <div class="calc-result-box">
+            <div class="calc-row">
+              <span>Propuesta Conceptual y Arq.</span>
+              <strong id="calcConceptualOut">$0.00 MXN</strong>
+            </div>
+            <div class="calc-row">
+              <span>Material Comercial (Renders y Plantas)</span>
+              <strong id="calcComercialOut">$0.00 MXN</strong>
+            </div>
+            <div class="calc-row">
+              <span>Proyecto Ejecutivo</span>
+              <strong id="calcEjecutivoOut">$0.00 MXN</strong>
+            </div>
+            <div class="calc-row is-total">
+              <span>Total Estimado</span>
+              <strong id="calcTotalOut">$0.00 MXN</strong>
+            </div>
+          </div>
+
+          <button type="button" class="esencial-pill-btn pill-sage full-width mt-sm" id="btnApplyCalcToQuote">
+            <i data-lucide="wand-2" class="icon-sm"></i>
+            <span>Generar Alcances con este Cálculo</span>
+          </button>
+        </div>
+
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-terracotta">Dictado y Notas</span>
+              <h2>Captura Rápida desde Texto</h2>
+            </div>
+            <button type="button" class="mini-btn" id="btnLoadSampleNotes">Ejemplo</button>
+          </div>
+          <p class="helper-text">
+            Dicta con tu micrófono o pega notas rápidas para crear la cotización al instante.
+          </p>
+
+          <div class="dictation-controls">
+            <button type="button" class="esencial-pill-btn pill-outline full-width" id="btnToggleDictation">
+              <i data-lucide="audio-lines" class="icon-sm"></i>
+              <span>Dictar a Texto</span>
+            </button>
+          </div>
+          <div id="recordingStatus" class="status-pill hidden"></div>
+
+          <textarea
+            id="quickNotesInput"
+            rows="9"
+            placeholder="Ejemplo:&#10;Proyecto: CASA MONTEJO&#10;Cliente: Familia Pérez&#10;Descuento: 10%&#10;Entrega: 12 a 14 semanas&#10;Alcance: Propuesta Conceptual y Arquitectónica | $110,000 | Plantas, cortes, fachadas y 6 renders HD&#10;Alcance: Proyecto Ejecutivo | $75,000 | Acabados, albañilería, carpintería, cancelería e instalaciones"
+          ></textarea>
+
+          <div class="field mt-sm">
+            <label for="notesMergeMode">Al aplicar notas</label>
+            <select id="notesMergeMode">
+              <option value="replace">Reemplazar alcances actuales</option>
+              <option value="append">Agregar alcances al presupuesto actual</option>
+            </select>
+          </div>
+
+          <button type="button" class="esencial-pill-btn pill-dark full-width mt-sm" id="btnParseQuickNotes">
+            <i data-lucide="sparkles" class="icon-sm"></i>
+            <span>Aplicar Notas al Presupuesto</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 4: HISTORIAL LOCAL -->
+      <section class="tab-content" id="tab-historial">
+        <div class="esencial-card card">
+          <div class="card-header">
+            <div>
+              <span class="esencial-overline text-sage">Archivo Local</span>
+              <h2>Presupuestos Guardados</h2>
+            </div>
+            <button type="button" class="btn-add" id="btnSaveCurrentToHistory">+ Guardar copia</button>
+          </div>
+          <p class="helper-text">
+            Tu presupuesto actual se autoguarda en este navegador. Guarda versiones por cliente para reabrirlas, duplicarlas o respaldarlas en JSON.
+          </p>
+          <div id="historyList" class="history-list"></div>
+
+          <div class="backup-bar">
+            <button type="button" class="mini-btn full-width" id="btnExportJson">Exportar Respaldo (.json)</button>
+            <button type="button" class="mini-btn full-width" id="btnImportJsonBtn">Importar (.json)</button>
+            <input type="file" id="importJsonInput" accept=".json,application/json" hidden />
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- PANEL DERECHO: Vista Previa Exacta del Documento -->
+    <section class="preview-panel">
+      <div class="preview-toolbar no-print">
+        <div class="preview-info">
+          <span class="esencial-overline">Vista Previa</span>
+          <span class="toolbar-sep">·</span>
+          <span id="pageCountBadge" class="mono-badge">3 páginas · Carta (8.5 × 11 in)</span>
+          <span class="toolbar-sep">·</span>
+          <span id="previewTotalBadge" class="mono-badge text-sage">$ 173,000.00 MXN</span>
+        </div>
+        <div class="zoom-controls">
+          <button type="button" class="mini-btn" id="btnZoomOut" title="Alejar">−</button>
+          <span id="zoomLabel" class="mono-zoom">78%</span>
+          <button type="button" class="mini-btn" id="btnZoomIn" title="Acercar">+</button>
+          <button type="button" class="mini-btn" id="btnZoomFit" title="Ajustar al ancho">Ajustar</button>
+        </div>
+      </div>
+
+      <div class="preview-viewport" id="previewViewport">
+        <div id="pagesContainer" class="pages-container">
+          <!-- Renderizado dinámico de .presupuesto-page -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER INTERNO ================= -->
+  <footer class="app-footer no-print">
+    <p>© 2026 ESENCIAL STUDIO · Creador de Presupuestos y Cotizaciones</p>
+    <p class="footer-meta">Formato Editorial ES-PRE · Papel Carta (8.5 × 11 in) · DOCX + PDF</p>
+  </footer>
+
+  <!-- Sandbox oculto de medición para paginación precisa -->
+  <div id="measureSandbox" class="measure-sandbox" aria-hidden="true"></div>
+
+  <!-- Toast de notificaciones -->
+  <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
+</body>
+</html>
